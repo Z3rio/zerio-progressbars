@@ -1,0 +1,13 @@
+exports["zerio-progressbars"]:OpenProgressBar({
+    allowcancel = true,
+    time = 15,
+    label = "Test",
+
+    finished = function()
+        print("finished")
+    end
+
+    canceled = function()
+        print("canceled")
+    end
+})
