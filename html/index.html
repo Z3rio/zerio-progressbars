@@ -1,129 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        
-        <script src="./libs/vue.js"></script>
-        <script src="./libs/anime.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <script src="./libs/vue.js"></script>
+    <script src="./libs/anime.js"></script>
 
-		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css"
+      rel="stylesheet"
+    />
 
-	    <link rel="stylesheet" href="style.css" type="text/css">
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
 
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    </head>
-    <body>
-		<v-app data-app>
-			<div id="app">
-				<div class="prog-container">
-					<div class="prog-headers">
-						<h1 class="prog-text">{{progressbardata !== undefined ? progressbardata.label : ''}}</h1>
-						<h1 class="prog-time">{{progressbardata !== undefined ? formatseconds(progressbardata.currenttime) : ''}} / {{progressbardata !== undefined ? formatseconds(progressbardata.time) : ''}}</h1>
-					</div>
-					<div class="prog-outer">
-						<div class="prog-inner" :style="{'width': progressbardata !== undefined ? (100 * (progressbardata.currenttime / progressbardata.time)) + '%' : '0%'}"></div>
-					</div>
-				</div>
-			</div>
-		</v-app>
+    <link rel="stylesheet" href="style.css" type="text/css" />
 
-        <script>
-			const viewmodel = new Vue({
-				el: '#app',
-				vuetify: new Vuetify(),
-				data: {
-					progressbardata: undefined,
-					cancel: false
-				},
-				methods: {
-					formatseconds(seconds) {
-						if (seconds <= 0) {
-							return "0s"
-						}
-						else {
-							seconds = Number(seconds);
-							var d = Math.floor(seconds / (3600*24));
-							var h = Math.floor(seconds % (3600*24) / 3600);
-							var m = Math.floor(seconds % 3600 / 60);
-							var s = Math.floor(seconds % 60);
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"
+    />
+  </head>
+  <body>
+    <v-app data-app>
+      <div id="app">
+        <div class="prog-container">
+          <div class="prog-headers">
+            <h1 class="prog-text">
+              {{progressbardata !== undefined ? progressbardata.label : ''}}
+            </h1>
+            <h1 class="prog-time">
+              {{progressbardata !== undefined ?
+              formatseconds(progressbardata.currenttime) : ''}} /
+              {{progressbardata !== undefined ?
+              formatseconds(progressbardata.time) : ''}}
+            </h1>
+          </div>
+          <div class="prog-outer">
+            <div
+              class="prog-inner"
+              :style="{'width': progressbardata !== undefined ? (100 * (progressbardata.currenttime / progressbardata.time)) + '%' : '0%'}"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </v-app>
 
-							var dDisplay = d > 0 ? d + (d == 1 ? "d, " : "d, ") : "";
-							var hDisplay = h > 0 ? h + (h == 1 ? "h, " : "h, ") : "";
-							var mDisplay = m > 0 ? m + (m == 1 ? "m, " : "m, ") : "";
-							var sDisplay = s > 0 ? s + (s == 1 ? "s" : "s") : "";
-							return dDisplay + hDisplay + mDisplay + sDisplay;
-						}
-					},
+    <script>
+      const viewmodel = new Vue({
+        el: "#app",
+        vuetify: new Vuetify(),
+        data: {
+          progressbardata: undefined,
+          cancel: false,
+        },
+        methods: {
+          formatseconds(seconds) {
+            if (seconds <= 0) {
+              return "0s";
+            } else {
+              seconds = Number(seconds);
+              var d = Math.floor(seconds / (3600 * 24));
+              var h = Math.floor((seconds % (3600 * 24)) / 3600);
+              var m = Math.floor((seconds % 3600) / 60);
+              var s = Math.floor(seconds % 60);
 
-					open(data) {
-						anime({
-							targets: '.prog-container',
+              var dDisplay = d > 0 ? d + (d == 1 ? "d, " : "d, ") : "";
+              var hDisplay = h > 0 ? h + (h == 1 ? "h, " : "h, ") : "";
+              var mDisplay = m > 0 ? m + (m == 1 ? "m, " : "m, ") : "";
+              var sDisplay = s > 0 ? s + (s == 1 ? "s" : "s") : "";
+              return dDisplay + hDisplay + mDisplay + sDisplay;
+            }
+          },
 
-							bottom: '10%',
-							opacity: '1',
-							
-							easing: 'easeInOutExpo'
-						})
-					},
+          open(data) {
+            anime({
+              targets: ".prog-container",
 
-					stop(cancel) {
-						anime({
-							targets: '.prog-container',
+              bottom: "10%",
+              opacity: "1",
 
-							bottom: '-10%',
-							opacity: '0',
-							
-							easing: 'easeInOutExpo'
-						})
+              easing: "easeInOutExpo",
+            });
+          },
 
-						if (cancel == false) {
-							fetch("https://zerio-progressbar/stop", {
-								method: "POST"
-							}).catch((result) => {})
-						}
-					},
-				},
-				computed: {
-					
-				}
-			})
+          stop(cancel) {
+            anime({
+              targets: ".prog-container",
 
-			window.addEventListener("message", (event) => {
-				switch (event.data.action) {
-					case "stop":
-						viewmodel.stop(false)
-						break;
+              bottom: "-10%",
+              opacity: "0",
 
-					case "open":
-						viewmodel.cancel = false
-						viewmodel.open()
-						event.data.data.currenttime = 0
-						viewmodel.progressbardata = event.data.data
+              easing: "easeInOutExpo",
+            });
 
-						function update() {
-							if (viewmodel.cancel == true) { return; }
-							if (viewmodel.progressbardata.currenttime >= viewmodel.progressbardata.time) {
-								viewmodel.stop()
-								return;
-							}
+            if (cancel == false) {
+              fetch("https://zerio-progressbar/stop", {
+                method: "POST",
+              }).catch((result) => {});
+            }
+          },
+        },
+        computed: {},
+      });
 
-							Vue.set(viewmodel.progressbardata, "currenttime", viewmodel.progressbardata.currenttime + 1)
+      window.addEventListener("message", (event) => {
+        switch (event.data.action) {
+          case "open":
+            viewmodel.cancel = false;
+            viewmodel.open();
+            event.data.data.currenttime = 0;
+            viewmodel.progressbardata = event.data.data;
 
-							setTimeout(update, 1000)
-						}
-						update()
-						break;
-					case "cancel":
-						viewmodel.stop(true)
-						viewmodel.cancel = true
-						break;
-				}
-			})
-        </script>
-    </body>
+            function update() {
+              if (viewmodel.cancel == true) {
+                return;
+              }
+              if (
+                viewmodel.progressbardata.currenttime >=
+                viewmodel.progressbardata.time
+              ) {
+                viewmodel.stop(false);
+                return;
+              }
+
+              Vue.set(
+                viewmodel.progressbardata,
+                "currenttime",
+                viewmodel.progressbardata.currenttime + 1
+              );
+
+              setTimeout(update, 1000);
+            }
+            update();
+            break;
+          case "cancel":
+            viewmodel.stop(true);
+            viewmodel.cancel = true;
+            break;
+        }
+      });
+    </script>
+  </body>
 </html>
