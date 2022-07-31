@@ -10,9 +10,15 @@ Citizen.CreateThread(function()
                     label = "Test Progress Bar"
                 }
             else
-                if data.time == nil then data.time = 10 end
-                if data.label == nil then data.label = "Test Progress Bar" end
-                if data.allowcancel == nil then data.allowcancel = false end
+                if data.time == nil then
+                    data.time = 10
+                end
+                if data.label == nil then
+                    data.label = "Test Progress Bar"
+                end
+                if data.allowcancel == nil then
+                    data.allowcancel = false
+                end
             end
 
             cacheddata = data
@@ -31,31 +37,31 @@ Citizen.CreateThread(function()
     RegisterNUICallback("stop", function()
         shown = false
 
-        if cacheddata.finished ~= nil and type(cacheddata.finished) == "function"  then
+        if cacheddata.finished ~= nil then
             cacheddata.finished(cacheddata)
         end
     end)
 
-    -- RegisterCommand("testprogbar", function()
-    --     exports["zerio-progressbar"]:OpenProgressBar({
-    --         allowcancel = true,
-    --         time = 15,
-    --         label = "Test",
+    RegisterCommand("testprogbar", function()
+        exports["zerio-progressbar"]:OpenProgressBar({
+            allowcancel = true,
+            time = 5,
+            label = "Test",
 
-    --         finished = function()
-    --             print("finished")
-    --         end,
+            finished = function()
+                print("finished")
+            end,
 
-    --         canceled = function()
-    --             print("canceled")
-    --         end
-    --     })
-    -- end)
+            canceled = function()
+                print("canceled")
+            end
+        })
+    end)
 
     while true do
         if cacheddata and cacheddata.allowcancel then
             if IsControlPressed(0, 200) then
-                if cacheddata.canceled ~= nil and type(cacheddata.canceled) == "function" then
+                if cacheddata.canceled ~= nil then
                     cacheddata.canceled(cacheddata)
                 end
 
