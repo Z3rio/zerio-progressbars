@@ -34,12 +34,13 @@ Citizen.CreateThread(function()
 
     exports("OpenProgressBar", OpenProgressBar)
 
-    RegisterNUICallback("stop", function()
+    RegisterNUICallback("stop", function(data,cb)
         shown = false
 
         if cacheddata.finished ~= nil then
             cacheddata.finished(cacheddata)
         end
+        cb("ok")
     end)
 
     RegisterCommand("testprogbar", function()
